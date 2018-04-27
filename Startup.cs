@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd
 {
@@ -23,8 +24,8 @@ namespace BackEnd
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); 
+           
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services
                 .AddAuthentication(options =>
                 {
@@ -42,7 +43,7 @@ namespace BackEnd
                         ValidIssuer = Configuration["JwtIssuer"],
                         ValidAudience = Configuration["JwtIssuer"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
-                        ClockSkew = TimeSpan.Zero 
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
 
@@ -51,6 +52,7 @@ namespace BackEnd
         .AddJsonOptions(
             options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
         );
+       
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -60,7 +62,6 @@ namespace BackEnd
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc(routes =>
