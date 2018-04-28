@@ -62,6 +62,8 @@ namespace BackEnd
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc(routes =>

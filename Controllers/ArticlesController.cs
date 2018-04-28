@@ -61,7 +61,6 @@ namespace BackEnd.Controllers
                 return BadRequest();
             }
 
-            // _context.Entry(article).State = EntityState.Modified;
             Article temp = _context.Articles.FirstOrDefault(a => a.Id == article.Id);
             temp.Content = article.Content;
             temp.Title = article.Title;
